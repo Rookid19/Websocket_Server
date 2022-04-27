@@ -9,12 +9,28 @@ wss.on("connection", function (socket) {
 
    socket.on("message", function (msg) {
       //   setInterval(() => {
+      // socket.binaryType
+      // for (let i of msg) {
+      //    console.log(msg[i]);
+      // }
+      let data = JSON.parse(msg);
+      console.log(
+         "Message from client ------>  " +
+            data.id +
+            " " +
+            data.firstName +
+            " " +
+            data.lastName +
+            " " +
+            typeof data
+      );
+      let stockPrice = Math.floor(Math.random() * 798);
 
-      console.log("saved message " + msg);
+      let val = (data.price + stockPrice) * data.shares;
 
       //   }, 300);
       //This sends a copy of the msg sent via the client back to the client
-      socket.send("---> " + msg);
+      socket.send("---> " + val);
    });
 });
 
