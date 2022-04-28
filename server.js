@@ -15,19 +15,18 @@ wss.on("connection", function (socket) {
       // console.log(data);
 
       let newPrice = 200;
-      let oldPrice = 180;
-      let a = (newPrice - oldPrice) * data.shares;
+      let oldPrice = 205;
+      let gain = (newPrice - oldPrice) * data.shares;
 
-      console.log(a);
-      let gain = data.price - stockPrice;
       let percentage = (gain / oldPrice) * 100;
+      // console.log(gain + " " + percentage);
+
       addDoc(collection(db, "UserInfo", data.email, "Graph"), {
          createdAt: serverTimestamp(),
          gain: gain,
          percentage: percentage,
       });
 
-      //   }, 300);
       //This sends a copy of the msg sent via the client back to the client
       // socket.send("---> " + gain);
    });
