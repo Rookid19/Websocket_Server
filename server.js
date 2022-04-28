@@ -11,8 +11,15 @@ wss.on("connection", function (socket) {
 
    socket.on("message", function (msg, index) {
       let data = JSON.parse(msg);
-      // console.log(data);
-  
+      let arr = []
+      arr.push(data)
+      console.log(data);
+
+
+      // for (let i in data) {
+      //    console.log(data[i]);
+      // }
+
       // let stockPrice = Math.floor(Math.random() * 10);
 
       // let gain = data.price - stockPrice;
