@@ -9,22 +9,24 @@ wss.on("connection", function (socket) {
    //Connfirming connection by client
    console.log("New client connected");
 
-   socket.on("message", function (msg) {
+   socket.on("message", function (msg, index) {
       let data = JSON.parse(msg);
-      let email = data.email;
-      let stockPrice = Math.floor(Math.random() * 10);
+      // console.log(data);
+      let email = data.price;
+      console.log(email + " " + index);
+      // let stockPrice = Math.floor(Math.random() * 10);
 
-      let gain = data.price - stockPrice;
-      let percentage = (gain / stockPrice) * data.shares;
-      addDoc(collection(db, "UserInfo", email, "Graph"), {
-         createdAt: serverTimestamp(),
-         gain: gain,
-         percentage: percentage,
-      });
+      // let gain = data.price - stockPrice;
+      // let percentage = (gain / stockPrice) * data.shares;
+      // addDoc(collection(db, "UserInfo", email, "Graph"), {
+      //    createdAt: serverTimestamp(),
+      //    gain: gain,
+      //    percentage: percentage,
+      // });
 
       //   }, 300);
       //This sends a copy of the msg sent via the client back to the client
-      socket.send("---> " + gain);
+      // socket.send("---> " + gain);
    });
 });
 
