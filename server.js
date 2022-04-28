@@ -1,4 +1,6 @@
+const { addDoc, collection, serverTimestamp } = require("firebase/firestore");
 const WebSocket = require("ws");
+const { db } = require("./firebase");
 //The port we're connecting to
 const PORT = 3004;
 const wss = new WebSocket.Server({ port: PORT });
@@ -8,29 +10,21 @@ wss.on("connection", function (socket) {
    console.log("New client connected");
 
    socket.on("message", function (msg) {
-      //   setInterval(() => {
-      // socket.binaryType
-      // for (let i of msg) {
-      //    console.log(msg[i]);
-      // }
       let data = JSON.parse(msg);
-      console.log(
-         "Message from client ------>  " +
-            data.id +
-            " " +
-            data.firstName +
-            " " +
-            data.lastName +
-            " " +
-            typeof data
-      );
-      let stockPrice = Math.floor(Math.random() * 798);
+      let email = data.email;
+      let stockPrice = Math.floor(Math.random() * 10);
 
-      let val = (data.price + stockPrice) * data.shares;
+      let gain = data.price - stockPrice;
+      let percentage = (gain / stockPrice) * data.shares;
+      addDoc(collection(db, "UserInfo", email, "Graph"), {
+         createdAt: serverTimestamp(),
+         gain: gain,
+         percentage: percentage,
+      });
 
       //   }, 300);
       //This sends a copy of the msg sent via the client back to the client
-      socket.send("---> " + val);
+      socket.send("---> " + gain);
    });
 });
 
