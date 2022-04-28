@@ -11,24 +11,21 @@ wss.on("connection", function (socket) {
 
    socket.on("message", function (msg, index) {
       let data = JSON.parse(msg);
-      let arr = []
-      arr.push(data)
-      console.log(data);
 
+      // console.log(data);
 
-      // for (let i in data) {
-      //    console.log(data[i]);
-      // }
+      let newPrice = 200;
+      let oldPrice = 180;
+      let a = (newPrice - oldPrice) * data.shares;
 
-      // let stockPrice = Math.floor(Math.random() * 10);
-
-      // let gain = data.price - stockPrice;
-      // let percentage = (gain / stockPrice) * data.shares;
-      // addDoc(collection(db, "UserInfo", email, "Graph"), {
-      //    createdAt: serverTimestamp(),
-      //    gain: gain,
-      //    percentage: percentage,
-      // });
+      console.log(a);
+      let gain = data.price - stockPrice;
+      let percentage = (gain / oldPrice) * 100;
+      addDoc(collection(db, "UserInfo", data.email, "Graph"), {
+         createdAt: serverTimestamp(),
+         gain: gain,
+         percentage: percentage,
+      });
 
       //   }, 300);
       //This sends a copy of the msg sent via the client back to the client
